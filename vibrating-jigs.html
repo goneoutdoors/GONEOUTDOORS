@@ -892,7 +892,7 @@
       quantityDisplay.textContent = quantity;
     });
 
-   document
+ document
   .getElementById("addToCart")
   .addEventListener("click", () => {
 
@@ -906,12 +906,33 @@
       image: mainImage.src.split("/").pop()
     };
 
-    localStorage.setItem(
-      "goneOutdoorsCart",
-      JSON.stringify([cartItem])
+    const cart =
+      JSON.parse(localStorage.getItem("goneOutdoorsCart")) || [];
+
+    const existingItem = cart.find(
+      (item) =>
+        item.id === cartItem.id &&
+        item.color === cartItem.color &&
+        item.weight === cartItem.weight
     );
 
-    window.location.href = "cart.html";
+    if (existingItem) {
+      existingItem.quantity += cartItem.quantity;
+    } else {
+      cart.push(cartItem);
+    }
+
+    localStorage.setItem(
+      "goneOutdoorsCart",
+      JSON.stringify(cart)
+    );
+
+    alert(
+      cartItem.color +
+      " " +
+      cartItem.weight +
+      " added to your cart!"
+    );
   });
   </script>
 
