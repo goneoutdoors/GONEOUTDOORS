@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Products | Gone Outdoors</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #0b0b0b;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* HEADER */
+
+    .site-header {
+      background: #050505;
+      border-bottom: 1px solid #222;
+      padding: 16px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .brand img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .site-nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .site-nav a:hover,
+    .site-nav .active {
+      color: #ffc400;
+    }
+
+    /* PAGE INTRO */
+
+    .products-hero {
+      padding: 85px 6% 60px;
+      text-align: center;
+      background:
+        radial-gradient(circle at top, #202020 0%, #0b0b0b 55%);
+      border-bottom: 1px solid #1d1d1d;
+    }
+
+    .eyebrow {
+      color: #ffc400;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    .products-hero h1 {
+      margin: 0 0 16px;
+      font-size: clamp(40px, 6vw, 70px);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .products-hero h1 span {
+      color: #ffc400;
+    }
+
+    .products-hero p {
+      color: #bdbdbd;
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* PRODUCT GRID */
+
+    .products-section {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 65px 6% 90px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .product-card {
+      background: #121212;
+      border: 1px solid #292929;
+      border-top: 3px solid #ffc400;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: 0.25s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: #ffc400;
+    }
+
+    .product-image {
+      height: 260px;
+      background: #181818;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      border-bottom: 1px solid #292929;
+    }
+
+    .product-placeholder {
+      color: #666666;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .product-info {
+      padding: 26px;
+    }
+
+    .product-info h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .product-info p {
+      color: #a9a9a9;
+      margin: 0 0 24px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .product-link {
+      display: inline-block;
+      background: #ffc400;
+      color: #000000;
+      padding: 12px 18px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+    }
+
+    .product-link:hover {
+      background: #ffffff;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid #222;
+      padding: 30px 6%;
+      text-align: center;
+      color: #777777;
+      font-size: 13px;
+      background: #050505;
+    }
+
+    footer strong {
+      color: #ffc400;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+      .site-header {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .site-nav {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .products-hero {
+        padding: 55px 20px 45px;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .products-section {
+        padding: 40px 20px 65px;
+      }
+
+      .product-image {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="brand">
+      <img src="logo.png" alt="Gone Outdoors logo">
+      <div class="brand-name">GONE OUTDOORS</div>
+    </a>
+
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="index.html#live">Live Sales</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#social">Follow Us</a>
+    </nav>
+  </header>
+
+  <section class="products-hero">
+    <div class="eyebrow">BUILT BY ANGLERS. FOR ANGLERS.</div>
+    <h1>OUR <span>PRODUCTS</span></h1>
+
+    <p>
+      Fishing tackle selected and developed with real-world performance,
+      reliability and value in mind.
+    </p>
+  </section>
+
+  <main class="products-section">
+    <div class="product-grid">
+
+      <article class="product-card">
+        <div class="product-image">
+          <div class="product-placeholder">PRODUCT IMAGE COMING NEXT</div>
+        </div>
+
+        <div class="product-info">
+          <h2>Vibrating Jigs</h2>
+          <p>
+            Four purpose-built colorways available in 7g, 11g and 13g
+            for different presentations and conditions.
+          </p>
+
+          <a href="vibrating-jigs.html" class="product-link">
+            SHOP VIBRATING JIGS
+          </a>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-image">
+          <div class="product-placeholder">PRODUCT IMAGE COMING NEXT</div>
+        </div>
+
+        <div class="product-info">
+          <h2>Screw Lock Weighted Wide Gap Hooks</h2>
+          <p>
+            Razor-sharp high-carbon steel hooks with a screw-lock keeper,
+            available in multiple sizes and weights.
+          </p>
+
+          <a href="#" class="product-link">VIEW PRODUCT</a>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-image">
+          <div class="product-placeholder">PRODUCT IMAGE COMING NEXT</div>
+        </div>
+
+        <div class="product-info">
+          <h2>Underspin Jigs</h2>
+          <p>
+            Versatile underspin jigs designed to add flash and action
+            to your favorite soft-plastic presentations.
+          </p>
+
+          <a href="#" class="product-link">VIEW PRODUCT</a>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2026 <strong>Gone Outdoors</strong>. All rights reserved.
+    &nbsp; • &nbsp; Saltwater &nbsp; • &nbsp; Freshwater &nbsp; • &nbsp; Good People
+  </footer>
+
+</body>
+</html>
