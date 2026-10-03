@@ -892,20 +892,27 @@
       quantityDisplay.textContent = quantity;
     });
 
-    document
-      .getElementById("addToCart")
-      .addEventListener("click", () => {
-        alert(
-          "Gone Outdoors online checkout is coming soon. " +
-          "Selected: " +
-          selectedColor.textContent +
-          ", " +
-          selectedWeight.textContent +
-          ", Qty " +
-          quantity +
-          "."
-        );
-      });
+   document
+  .getElementById("addToCart")
+  .addEventListener("click", () => {
+
+    const cartItem = {
+      id: "vibrating-jig",
+      name: "Vibrating Jigs",
+      color: selectedColor.textContent,
+      weight: selectedWeight.textContent,
+      quantity: quantity,
+      price: 14.99,
+      image: mainImage.src.split("/").pop()
+    };
+
+    localStorage.setItem(
+      "goneOutdoorsCart",
+      JSON.stringify([cartItem])
+    );
+
+    window.location.href = "cart.html";
+  });
   </script>
 
 </body>
