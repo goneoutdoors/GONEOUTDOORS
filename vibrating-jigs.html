@@ -829,14 +829,23 @@
       );
     }
 
-    colorButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        selectColor(
-          button.dataset.color,
-          button.dataset.image
-        );
-      });
-    });
+  colorButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    selectColor(
+      button.dataset.color,
+      button.dataset.image
+    );
+
+    if (window.innerWidth <= 800) {
+      setTimeout(() => {
+        mainImage.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }, 100);
+    }
+  });
+});
 
     weightButtons.forEach((button) => {
       button.addEventListener("click", () => {
