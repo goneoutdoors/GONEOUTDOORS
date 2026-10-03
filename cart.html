@@ -648,74 +648,115 @@
   </footer>
 
   <script>
-    const PRICE = 14.99;
+   const cartData =
+  JSON.parse(localStorage.getItem("goneOutdoorsCart")) || [];
 
-    const quantityDisplay =
-      document.getElementById("quantity");
+const cartItem = cartData[0];
 
-    const decreaseQuantity =
-      document.getElementById("decreaseQuantity");
+const quantityDisplay =
+  document.getElementById("quantity");
 
-    const increaseQuantity =
-      document.getElementById("increaseQuantity");
+const decreaseQuantity =
+  document.getElementById("decreaseQuantity");
 
-    const lineTotal =
-      document.getElementById("lineTotal");
+const increaseQuantity =
+  document.getElementById("increaseQuantity");
 
-    const subtotal =
-      document.getElementById("subtotal");
+const lineTotal =
+  document.getElementById("lineTotal");
 
-    const cartTotal =
-      document.getElementById("cartTotal");
+const subtotal =
+  document.getElementById("subtotal");
 
-    const removeItem =
-      document.getElementById("removeItem");
+const cartTotal =
+  document.getElementById("cartTotal");
 
-    const cartLayout =
-      document.getElementById("cartLayout");
+const removeItem =
+  document.getElementById("removeItem");
 
-    const emptyCart =
-      document.getElementById("emptyCart");
+const cartLayout =
+  document.getElementById("cartLayout");
 
-    const checkoutButton =
-      document.getElementById("checkoutButton");
+const emptyCart =
+  document.getElementById("emptyCart");
 
-    let quantity = 1;
+const checkoutButton =
+  document.getElementById("checkoutButton");
 
-    function updateCartTotals() {
-      const total = PRICE * quantity;
-      const formattedTotal = "$" + total.toFixed(2);
+const cartProductImage =
+  document.getElementById("cartProductImage");
 
-      quantityDisplay.textContent = quantity;
-      lineTotal.textContent = formattedTotal;
-      subtotal.textContent = formattedTotal;
-      cartTotal.textContent = formattedTotal;
-    }
+const cartColor =
+  document.getElementById("cartColor");
 
-    decreaseQuantity.addEventListener("click", () => {
-      if (quantity > 1) {
-        quantity--;
-        updateCartTotals();
-      }
-    });
+const cartWeight =
+  document.getElementById("cartWeight");
 
-    increaseQuantity.addEventListener("click", () => {
-      quantity++;
-      updateCartTotals();
-    });
+let quantity = cartItem ? cartItem.quantity : 1;
+let price = cartItem ? cartItem.price : 14.99;
 
-    removeItem.addEventListener("click", () => {
-      cartLayout.style.display = "none";
-      emptyCart.style.display = "block";
-    });
+function updateCartTotals() {
+  const total = price * quantity;
+  const formattedTotal = "$" + total.toFixed(2);
 
-    checkoutButton.addEventListener("click", () => {
-      alert(
-        "Gone Outdoors secure checkout is coming soon."
-      );
-    });
+  quantityDisplay.textContent = quantity;
+  lineTotal.textContent = formattedTotal;
+  subtotal.textContent = formattedTotal;
+  cartTotal.textContent = formattedTotal;
 
+  if (cartItem) {
+    cartItem.quantity = quantity;
+
+    localStorage.setItem(
+      "goneOutdoorsCart",
+      JSON.stringify([cartItem])
+    );
+  }
+}
+
+if (cartItem) {
+  cartProductImage.src = cartItem.image;
+  cartProductImage.alt =
+    cartItem.color + " Gone Outdoors Vibrating Jig";
+
+  cartColor.textContent = cartItem.color;
+  cartWeight.textContent = cartItem.weight;
+
+  cartLayout.style.display = "grid";
+  emptyCart.style.display = "none";
+} else {
+  cartLayout.style.display = "none";
+  emptyCart.style.display = "block";
+}
+
+decreaseQuantity.addEventListener("click", () => {
+  if (quantity > 1) {
+    quantity--;
     updateCartTotals();
+  }
+});
+
+increaseQuantity.addEventListener("click", () => {
+  quantity++;
+  updateCartTotals();
+});
+
+removeItem.addEventListener("click", () => {
+  localStorage.removeItem("goneOutdoorsCart");
+
+  cartLayout.style.display = "none";
+  emptyCart.style.display = "block";
+});
+
+checkoutButton.addEventListener("click", () => {
+  alert(
+    "Gone Outdoors secure checkout is coming soon."
+  );
+});
+
+if (cartItem) {
+  updateCartTotals();
+}
   </script>
 
 </body>
