@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Vibrating Jigs | Gone Outdoors</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #0b0b0b;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    header {
+      background: #050505;
+      border-bottom: 1px solid #222;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: 74px;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      font-size: 17px;
+    }
+
+    .brand img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    nav a {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: 0.2s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #ffc400;
+    }
+
+    /* =========================
+       BREADCRUMB
+    ========================== */
+
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 24px 0;
+      color: #999;
+      font-size: 12px;
+    }
+
+    .breadcrumb a:hover {
+      color: #ffc400;
+    }
+
+    .breadcrumb span {
+      margin: 0 8px;
+      color: #555;
+    }
+
+    /* =========================
+       PRODUCT LAYOUT
+    ========================== */
+
+    .product-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 24px 70px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+      gap: 60px;
+      align-items: start;
+    }
+
+    /* =========================
+       PRODUCT GALLERY
+    ========================== */
+
+    .product-gallery {
+      min-width: 0;
+    }
+
+    .main-image-wrap {
+      background: #ffffff;
+      border: 1px solid #292929;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-image-wrap img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .thumbnail-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .thumbnail {
+      background: #ffffff;
+      border: 2px solid #292929;
+      border-radius: 5px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 1 / 1;
+      padding: 0;
+      transition: 0.2s ease;
+    }
+
+    .thumbnail:hover {
+      border-color: #777;
+    }
+
+    .thumbnail.active {
+      border-color: #ffc400;
+    }
+
+    .thumbnail img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* =========================
+       PRODUCT INFORMATION
+    ========================== */
+
+    .product-info {
+      padding-top: 6px;
+    }
+
+    .product-eyebrow {
+      color: #ffc400;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .product-info h1 {
+      font-size: clamp(38px, 4vw, 58px);
+      line-height: 0.98;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .product-tagline {
+      color: #bdbdbd;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 22px;
+      max-width: 520px;
+    }
+
+    .price {
+      font-size: 30px;
+      font-weight: 900;
+      margin-bottom: 28px;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: #292929;
+      margin: 0 0 28px;
+    }
+
+    /* =========================
+       OPTIONS
+    ========================== */
+
+    .option-group {
+      margin-bottom: 28px;
+    }
+
+    .option-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    .option-label {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .selected-value {
+      color: #ffc400;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .color-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .color-option,
+    .weight-option {
+      background: #151515;
+      color: #ffffff;
+      border: 1px solid #383838;
+      border-radius: 4px;
+      min-height: 48px;
+      padding: 11px 14px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      transition: 0.2s ease;
+    }
+
+    .color-option:hover,
+    .weight-option:hover {
+      border-color: #888;
+    }
+
+    .color-option.active,
+    .weight-option.active {
+      background: #ffc400;
+      border-color: #ffc400;
+      color: #000000;
+    }
+
+    .weight-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    /* =========================
+       QUANTITY + CART
+    ========================== */
+
+    .purchase-row {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .quantity-control {
+      min-height: 54px;
+      display: grid;
+      grid-template-columns: 34px 1fr 34px;
+      align-items: center;
+      border: 1px solid #444;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .quantity-control button {
+      height: 100%;
+      border: 0;
+      background: #111;
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .quantity-control button:hover {
+      background: #1d1d1d;
+    }
+
+    #quantity {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .add-cart {
+      min-height: 54px;
+      border: 2px solid #ffc400;
+      border-radius: 4px;
+      background: #ffc400;
+      color: #000000;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .add-cart:hover {
+      transform: translateY(-2px);
+      background: #ffd333;
+      border-color: #ffd333;
+    }
+
+    .cart-note {
+      color: #777;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+
+    /* =========================
+       PRODUCT DETAILS
+    ========================== */
+
+    .details {
+      border-top: 1px solid #292929;
+      margin-top: 36px;
+      padding-top: 28px;
+    }
+
+    .details h2 {
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+
+    .details p {
+      color: #bdbdbd;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .feature-list li {
+      color: #d0d0d0;
+      font-size: 13px;
+      line-height: 1.5;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .feature-list li::before {
+      content: "•";
+      color: #ffc400;
+      position: absolute;
+      left: 2px;
+      font-weight: 900;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    footer {
+      border-top: 1px solid #222;
+      background: #050505;
+      padding: 34px 24px;
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    footer strong {
+      color: #ffffff;
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 800px) {
+      .header-inner {
+        min-height: 64px;
+        padding: 10px 16px;
+      }
+
+      .brand {
+        font-size: 14px;
+      }
+
+      .brand img {
+        width: 30px;
+        height: 30px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .breadcrumb {
+        padding: 18px 16px 0;
+      }
+
+      .product-page {
+        display: block;
+        padding: 22px 16px 50px;
+      }
+
+      .product-info {
+        padding-top: 30px;
+      }
+
+      .product-info h1 {
+        font-size: 36px;
+      }
+
+      .price {
+        font-size: 26px;
+      }
+
+      .thumbnail-row {
+        gap: 6px;
+      }
+
+      .color-options {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .weight-options {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .purchase-row {
+        grid-template-columns: 100px 1fr;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .product-info h1 {
+        font-size: 32px;
+      }
+
+      .color-option,
+      .weight-option {
+        font-size: 12px;
+        padding: 10px 8px;
+      }
+
+      .purchase-row {
+        grid-template-columns: 94px 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="Gone Outdoors logo">
+        <span>GONE OUTDOORS</span>
+      </a>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html" class="active">Products</a>
+        <a href="index.html#live">Live Sales</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#social">Follow Us</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>/</span>
+    <a href="products.html">Products</a>
+    <span>/</span>
+    Vibrating Jigs
+  </div>
+
+  <!-- PRODUCT -->
+  <main class="product-page">
+
+    <!-- LEFT: PRODUCT IMAGES -->
+    <section class="product-gallery">
+
+      <div class="main-image-wrap">
+        <img
+          id="mainProductImage"
+          src="vibrating-jigs-main.jpg"
+          alt="Gone Outdoors Vibrating Jigs"
+        >
+      </div>
+
+      <div class="thumbnail-row">
+
+        <button
+          class="thumbnail active"
+          type="button"
+          data-image="vibrating-jigs-main.jpg"
+          data-alt="Gone Outdoors Vibrating Jigs"
+          aria-label="View all vibrating jig colors"
+        >
+          <img
+            src="vibrating-jigs-main.jpg"
+            alt="Gone Outdoors Vibrating Jigs"
+          >
+        </button>
+
+        <button
+          class="thumbnail"
+          type="button"
+          data-image="iced-shad-vibrating-jig.png"
+          data-alt="Iced Shad Vibrating Jig"
+          data-color="Iced Shad"
+          aria-label="View Iced Shad"
+        >
+          <img
+            src="iced-shad-vibrating-jig.png"
+            alt="Iced Shad Vibrating Jig"
+          >
+        </button>
+
+        <button
+          class="thumbnail"
+          type="button"
+          data-image="thunder-vibrating-jig.png"
+          data-alt="Thunder Vibrating Jig"
+          data-color="Thunder"
+          aria-label="View Thunder"
+        >
+          <img
+            src="thunder-vibrating-jig.png"
+            alt="Thunder Vibrating Jig"
+          >
+        </button>
+
+        <button
+          class="thumbnail"
+          type="button"
+          data-image="wild-fire-vibrating-jig.png"
+          data-alt="Wild Fire Vibrating Jig"
+          data-color="Wild Fire"
+          aria-label="View Wild Fire"
+        >
+          <img
+            src="wild-fire-vibrating-jig.png"
+            alt="Wild Fire Vibrating Jig"
+          >
+        </button>
+
+        <button
+          class="thumbnail"
+          type="button"
+          data-image="sawgrass-vibrating-jig.png"
+          data-alt="Sawgrass Vibrating Jig"
+          data-color="Sawgrass"
+          aria-label="View Sawgrass"
+        >
+          <img
+            src="sawgrass-vibrating-jig.png"
+            alt="Sawgrass Vibrating Jig"
+          >
+        </button>
+
+      </div>
+    </section>
+
+    <!-- RIGHT: PRODUCT INFORMATION -->
+    <section class="product-info">
+
+      <div class="product-eyebrow">GONE OUTDOORS</div>
+
+      <h1>VIBRATING JIGS</h1>
+
+      <p class="product-tagline">
+        Built by anglers for anglers who demand performance and
+        reliability on every cast.
+      </p>
+
+      <div class="price">$14.99</div>
+
+      <div class="divider"></div>
+
+      <!-- COLOR -->
+      <div class="option-group">
+
+        <div class="option-heading">
+          <div class="option-label">Color</div>
+          <div class="selected-value" id="selectedColor">Iced Shad</div>
+        </div>
+
+        <div class="color-options">
+
+          <button
+            class="color-option active"
+            type="button"
+            data-color="Iced Shad"
+            data-image="iced-shad-vibrating-jig.png"
+          >
+            Iced Shad
+          </button>
+
+          <button
+            class="color-option"
+            type="button"
+            data-color="Thunder"
+            data-image="thunder-vibrating-jig.png"
+          >
+            Thunder
+          </button>
+
+          <button
+            class="color-option"
+            type="button"
+            data-color="Wild Fire"
+            data-image="wild-fire-vibrating-jig.png"
+          >
+            Wild Fire
+          </button>
+
+          <button
+            class="color-option"
+            type="button"
+            data-color="Sawgrass"
+            data-image="sawgrass-vibrating-jig.png"
+          >
+            Sawgrass
+          </button>
+
+        </div>
+      </div>
+
+      <!-- WEIGHT -->
+      <div class="option-group">
+
+        <div class="option-heading">
+          <div class="option-label">Weight</div>
+          <div class="selected-value" id="selectedWeight">1/4 oz</div>
+        </div>
+
+        <div class="weight-options">
+
+          <button
+            class="weight-option active"
+            type="button"
+            data-weight="1/4 oz"
+          >
+            1/4 oz
+          </button>
+
+          <button
+            class="weight-option"
+            type="button"
+            data-weight="3/8 oz"
+          >
+            3/8 oz
+          </button>
+
+          <button
+            class="weight-option"
+            type="button"
+            data-weight="1/2 oz"
+          >
+            1/2 oz
+          </button>
+
+        </div>
+      </div>
+
+      <!-- PURCHASE -->
+      <div class="purchase-row">
+
+        <div class="quantity-control">
+          <button
+            id="decreaseQuantity"
+            type="button"
+            aria-label="Decrease quantity"
+          >
+            −
+          </button>
+
+          <div id="quantity">1</div>
+
+          <button
+            id="increaseQuantity"
+            type="button"
+            aria-label="Increase quantity"
+          >
+            +
+          </button>
+        </div>
+
+        <button class="add-cart" id="addToCart" type="button">
+          ADD TO CART
+        </button>
+
+      </div>
+
+      <div class="cart-note">
+        Online checkout coming soon. Product options are being prepared
+        for the Gone Outdoors store.
+      </div>
+
+      <!-- DETAILS -->
+      <div class="details">
+
+        <h2>Built to Get Bit.</h2>
+
+        <p>
+          Gone Outdoors Vibrating Jigs combine flash, vibration and a
+          free-moving presentation for covering water and triggering
+          reaction strikes. Choose your color and weight to match the
+          conditions you're fishing.
+        </p>
+
+        <ul class="feature-list">
+          <li>Available in 1/4 oz, 3/8 oz and 1/2 oz.</li>
+          <li>Four Gone Outdoors colorways.</li>
+          <li>Premium silicone skirt.</li>
+          <li>Free-flowing hook mounted on a premium split ring.</li>
+          <li>Replaceable hook design.</li>
+          <li>Designed for freshwater and inshore applications.</li>
+        </ul>
+
+      </div>
+
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>© 2026 Gone Outdoors.</strong> All rights reserved.<br>
+    Saltwater &nbsp;•&nbsp; Freshwater &nbsp;•&nbsp; Good People
+  </footer>
+
+  <script>
+    const mainImage = document.getElementById("mainProductImage");
+    const thumbnails = document.querySelectorAll(".thumbnail");
+    const colorButtons = document.querySelectorAll(".color-option");
+    const weightButtons = document.querySelectorAll(".weight-option");
+
+    const selectedColor = document.getElementById("selectedColor");
+    const selectedWeight = document.getElementById("selectedWeight");
+
+    const quantityDisplay = document.getElementById("quantity");
+    const decreaseQuantity = document.getElementById("decreaseQuantity");
+    const increaseQuantity = document.getElementById("increaseQuantity");
+
+    let quantity = 1;
+
+    function changeMainImage(image, altText) {
+      mainImage.src = image;
+      mainImage.alt = altText;
+    }
+
+    function selectColor(color, image) {
+      selectedColor.textContent = color;
+
+      colorButtons.forEach((button) => {
+        button.classList.toggle(
+          "active",
+          button.dataset.color === color
+        );
+      });
+
+      thumbnails.forEach((thumbnail) => {
+        thumbnail.classList.toggle(
+          "active",
+          thumbnail.dataset.color === color
+        );
+      });
+
+      changeMainImage(
+        image,
+        color + " Gone Outdoors Vibrating Jig"
+      );
+    }
+
+    colorButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        selectColor(
+          button.dataset.color,
+          button.dataset.image
+        );
+      });
+    });
+
+    weightButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+
+        weightButtons.forEach((item) => {
+          item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        selectedWeight.textContent = button.dataset.weight;
+      });
+    });
+
+    thumbnails.forEach((thumbnail) => {
+      thumbnail.addEventListener("click", () => {
+
+        const image = thumbnail.dataset.image;
+        const altText = thumbnail.dataset.alt;
+        const color = thumbnail.dataset.color;
+
+        thumbnails.forEach((item) => {
+          item.classList.remove("active");
+        });
+
+        thumbnail.classList.add("active");
+
+        changeMainImage(image, altText);
+
+        if (color) {
+          selectedColor.textContent = color;
+
+          colorButtons.forEach((button) => {
+            button.classList.toggle(
+              "active",
+              button.dataset.color === color
+            );
+          });
+        }
+      });
+    });
+
+    decreaseQuantity.addEventListener("click", () => {
+      if (quantity > 1) {
+        quantity--;
+        quantityDisplay.textContent = quantity;
+      }
+    });
+
+    increaseQuantity.addEventListener("click", () => {
+      quantity++;
+      quantityDisplay.textContent = quantity;
+    });
+
+    document
+      .getElementById("addToCart")
+      .addEventListener("click", () => {
+        alert(
+          "Gone Outdoors online checkout is coming soon. " +
+          "Selected: " +
+          selectedColor.textContent +
+          ", " +
+          selectedWeight.textContent +
+          ", Qty " +
+          quantity +
+          "."
+        );
+      });
+  </script>
+
+</body>
+</html>
