@@ -49,7 +49,74 @@
     object-fit: cover;
     object-position: center center;
 }
+.hero-content {
+    position: absolute;
+    top: 50%;
+    right: 7%;
+    transform: translateY(-50%);
+    width: 34%;
+    max-width: 560px;
+    z-index: 3;
+    text-align: left;
+}
 
+.hero-eyebrow {
+    color: #ffc400;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.hero-content h1 {
+    color: #ffffff;
+    font-size: clamp(38px, 4vw, 64px);
+    line-height: 0.95;
+    margin: 0 0 18px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.hero-content p {
+    color: #e5e5e5;
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 0 28px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    display: inline-block;
+    padding: 14px 22px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.hero-btn-primary {
+    background: #ffc400;
+    color: #000000;
+    border: 2px solid #ffc400;
+}
+
+.hero-btn-secondary {
+    background: rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+.hero-btn:hover {
+    transform: translateY(-2px);
+}
     /*
       Invisible clickable areas over the buttons/navigation
       that are already visible inside hero.png.
@@ -384,6 +451,52 @@
         margin-bottom: 35px;
       }
     }
+    .hero {
+    height: 520px;
+}
+
+.hero-image {
+    object-position: 38% center;
+}
+
+.hero-content {
+    top: auto;
+    right: auto;
+    left: 20px;
+    bottom: 24px;
+    transform: none;
+    width: calc(100% - 40px);
+    max-width: 520px;
+    padding: 18px;
+    background: rgba(0, 0, 0, 0.68);
+    border-radius: 6px;
+}
+
+.hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.hero-content h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 14px;
+    line-height: 1.45;
+    margin-bottom: 16px;
+}
+
+.hero-buttons {
+    gap: 8px;
+}
+
+.hero-btn {
+    padding: 11px 14px;
+    font-size: 11px;
+}
   </style>
 </head>
 
@@ -401,43 +514,16 @@
       class="hero-image"
     >
 
-    <!-- Clickable navigation areas -->
+<div class="hero-content">
+    <div class="hero-eyebrow">NEW FROM GONE OUTDOORS</div>
+    <h1>VIBRATING JIGS</h1>
+    <p>Built by anglers for anglers who demand reliability on every cast.</p>
 
-    <a href="#products" class="hero-link nav-products" aria-label="Products"></a>
-
-    <a href="#live" class="hero-link nav-live" aria-label="Live Sales"></a>
-
-    <a href="#about" class="hero-link nav-about" aria-label="About Gone Outdoors"></a>
-
-    <a href="#social" class="hero-link nav-follow" aria-label="Follow Gone Outdoors"></a>
-
-    <!-- Main buttons -->
-
-    <a href="#products" class="hero-link shop-overlay" aria-label="Shop Products"></a>
-
-    <a href="#live" class="hero-link live-overlay" aria-label="Watch Gone Outdoors Live"></a>
-
-    <!-- Social icons -->
-<a
-  href="https://www.whatnot.com/user/goneoutdoorsfl"
-  target="_blank"
-  class="hero-link whatnot-overlay"
-  aria-label="Gone Outdoors on Whatnot">
-</a>
-
-<a
-  href="https://www.tiktok.com/@goneoutdoorsfl"
-  target="_blank"
-  class="hero-link tiktok-overlay"
-  aria-label="Gone Outdoors on TikTok">
-</a>
-
-<a
-  href="https://instagram.com/goneoutdoorsfl"
-  target="_blank"
-  class="hero-link instagram-overlay"
-  aria-label="Gone Outdoors on Instagram">
-</a>
+    <div class="hero-buttons">
+        <a href="#products" class="hero-btn hero-btn-primary">SHOP VIBRATING JIGS</a>
+        <a href="#live" class="hero-btn hero-btn-secondary">WATCH US LIVE</a>
+    </div>
+</div>
   </div>
 
 
