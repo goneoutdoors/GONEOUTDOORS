@@ -507,70 +507,7 @@
       <!-- CART ITEMS -->
       <section class="cart-items">
 
-        <article class="cart-item" id="cartItem">
-
-          <div class="product-image">
-            <img
-              src="iced-shad-vibrating-jig.png"
-              alt="Iced Shad Gone Outdoors Vibrating Jig"
-              id="cartProductImage"
-            >
-          </div>
-
-          <div class="item-info">
-
-            <div class="product-name">
-              Vibrating Jigs
-            </div>
-
-            <div class="variant">
-              Color: <strong id="cartColor">Iced Shad</strong><br>
-              Weight: <strong id="cartWeight">1/4 oz</strong>
-            </div>
-
-            <div class="item-price">
-              $14.99 each
-            </div>
-
-          </div>
-
-          <div class="item-actions">
-
-            <div class="quantity-control">
-              <button
-                id="decreaseQuantity"
-                type="button"
-                aria-label="Decrease quantity"
-              >
-                −
-              </button>
-
-              <div id="quantity">1</div>
-
-              <button
-                id="increaseQuantity"
-                type="button"
-                aria-label="Increase quantity"
-              >
-                +
-              </button>
-            </div>
-
-            <div class="line-total" id="lineTotal">
-              $14.99
-            </div>
-
-            <button
-              class="remove-item"
-              id="removeItem"
-              type="button"
-            >
-              Remove
-            </button>
-
-          </div>
-
-        </article>
+       <div id="cartItemsContainer"></div>
 
       </section>
 
@@ -648,31 +585,17 @@
   </footer>
 
   <script>
-   const cartData =
+let cart =
   JSON.parse(localStorage.getItem("goneOutdoorsCart")) || [];
 
-const cartItem = cartData[0];
-
-const quantityDisplay =
-  document.getElementById("quantity");
-
-const decreaseQuantity =
-  document.getElementById("decreaseQuantity");
-
-const increaseQuantity =
-  document.getElementById("increaseQuantity");
-
-const lineTotal =
-  document.getElementById("lineTotal");
+const cartItemsContainer =
+  document.getElementById("cartItemsContainer");
 
 const subtotal =
   document.getElementById("subtotal");
 
 const cartTotal =
   document.getElementById("cartTotal");
-
-const removeItem =
-  document.getElementById("removeItem");
 
 const cartLayout =
   document.getElementById("cartLayout");
@@ -683,70 +606,151 @@ const emptyCart =
 const checkoutButton =
   document.getElementById("checkoutButton");
 
-const cartProductImage =
-  document.getElementById("cartProductImage");
-
-const cartColor =
-  document.getElementById("cartColor");
-
-const cartWeight =
-  document.getElementById("cartWeight");
-
-let quantity = cartItem ? cartItem.quantity : 1;
-let price = cartItem ? cartItem.price : 14.99;
-
-function updateCartTotals() {
-  const total = price * quantity;
-  const formattedTotal = "$" + total.toFixed(2);
-
-  quantityDisplay.textContent = quantity;
-  lineTotal.textContent = formattedTotal;
-  subtotal.textContent = formattedTotal;
-  cartTotal.textContent = formattedTotal;
-
-  if (cartItem) {
-    cartItem.quantity = quantity;
-
-    localStorage.setItem(
-      "goneOutdoorsCart",
-      JSON.stringify([cartItem])
-    );
-  }
+function saveCart() {
+  localStorage.setItem(
+    "goneOutdoorsCart",
+    JSON.stringify(cart)
+  );
 }
 
-if (cartItem) {
-  cartProductImage.src = cartItem.image;
-  cartProductImage.alt =
-    cartItem.color + " Gone Outdoors Vibrating Jig";
+function updateSummary() {
+  const total = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
-  cartColor.textContent = cartItem.color;
-  cartWeight.textContent = cartItem.weight;
+  const formattedTotal = "$" + total.toFixed(2);
+
+  subtotal.textContent = formattedTotal;
+  cartTotal.textContent = formattedTotal;
+}
+
+function renderCart() {
+  cartItemsContainer.innerHTML = "";
+
+  if (cart.length === 0) {
+    cartLayout.style.display = "none";
+    emptyCart.style.display = "block";
+    return;
+  }
 
   cartLayout.style.display = "grid";
   emptyCart.style.display = "none";
-} else {
-  cartLayout.style.display = "none";
-  emptyCart.style.display = "block";
+
+  cart.forEach((item, index) => {
+    const lineTotal =
+      (item.price * item.quantity).toFixed(2);
+
+    const cartItem = document.createElement("article");
+    cartItem.className = "cart-item";
+
+    cartItem.innerHTML = `
+      <div class="product-image">
+        <img
+          src="${item.image}"
+          alt="${item.color} Gone Outdoors Vibrating Jig"
+        >
+      </div>
+
+      <div class="item-info">
+        <div class="product-name">
+          ${item.name}
+        </div>
+
+        <div class="variant">
+          Color: <strong>${item.color}</strong><br>
+          Weight: <strong>${item.weight}</strong>
+        </div>
+
+        <div class="item-price">
+          $${item.price.toFixed(2)} each
+        </div>
+
+        <div class="quantity-row">
+          <span>Quantity</span>
+
+          <div class="quantity-control">
+            <button
+              type="button"
+              class="decrease-item"
+              data-index="${index}"
+              aria-label="Decrease quantity"
+            >
+              −
+            </button>
+
+            <span>${item.quantity}</span>
+
+            <button
+              type="button"
+              class="increase-item"
+              data-index="${index}"
+              aria-label="Increase quantity"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-actions">
+        <div class="line-total">
+          $${lineTotal}
+        </div>
+
+        <button
+          class="remove-item"
+          type="button"
+          data-index="${index}"
+        >
+          Remove
+        </button>
+      </div>
+    `;
+
+    cartItemsContainer.appendChild(cartItem);
+  });
+
+  updateSummary();
+
+  document
+    .querySelectorAll(".decrease-item")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const index = Number(button.dataset.index);
+
+        if (cart[index].quantity > 1) {
+          cart[index].quantity--;
+          saveCart();
+          renderCart();
+        }
+      });
+    });
+
+  document
+    .querySelectorAll(".increase-item")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const index = Number(button.dataset.index);
+
+        cart[index].quantity++;
+        saveCart();
+        renderCart();
+      });
+    });
+
+  document
+    .querySelectorAll(".remove-item")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const index = Number(button.dataset.index);
+
+        cart.splice(index, 1);
+        saveCart();
+        renderCart();
+      });
+    });
 }
-
-decreaseQuantity.addEventListener("click", () => {
-  if (quantity > 1) {
-    quantity--;
-    updateCartTotals();
-  }
-});
-
-increaseQuantity.addEventListener("click", () => {
-  quantity++;
-  updateCartTotals();
-});
-
-removeItem.addEventListener("click", () => {
-  localStorage.removeItem("goneOutdoorsCart");
-
-  cartLayout.style.display = "none";
-  emptyCart.style.display = "block";
-});
 
 checkoutButton.addEventListener("click", () => {
   alert(
@@ -754,9 +758,7 @@ checkoutButton.addEventListener("click", () => {
   );
 });
 
-if (cartItem) {
-  updateCartTotals();
-}
+renderCart();
   </script>
 
 </body>
