@@ -752,10 +752,48 @@ function renderCart() {
     });
 }
 
-checkoutButton.addEventListener("click", () => {
-  alert(
-    "Gone Outdoors secure checkout is coming soon."
-  );
+checkoutButton.addEventListener("click", async () => {
+  if (cart.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+  checkoutButton.disabled = true;
+  checkoutButton.textContent = "LOADING CHECKOUT...";
+
+  try {
+    const response = await fetch(
+      "https://gone-outdoors-checkout.jarolftw.workers.dev/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          items: cart
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.url) {
+      throw new Error(
+        data.error || "Unable to start checkout."
+      );
+    }
+
+    window.location.href = data.url;
+  } catch (error) {
+    console.error("Checkout error:", error);
+
+    alert(
+      "We couldn't start checkout. Please try again."
+    );
+
+    checkoutButton.disabled = false;
+    checkoutButton.textContent = "PROCEED TO CHECKOUT";
+  }
 });
 
 renderCart();
