@@ -84,7 +84,26 @@
     nav a.active {
       color: #ffc400;
     }
+.cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
 
+.cart-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ffc400;
+  color: #050505;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+}
     /* =========================
        BREADCRUMB
     ========================== */
@@ -512,6 +531,7 @@
         <a href="index.html#live">Live Sales</a>
         <a href="index.html#about">About</a>
         <a href="index.html#social">Follow Us</a>
+        <a href="cart.html" class="cart-link">Cart <span class="cart-count" id="cartCount">0</span></a>
       </nav>
 
     </div>
@@ -926,7 +946,7 @@
       "goneOutdoorsCart",
       JSON.stringify(cart)
     );
-
+updateCartCount();
     alert(
       cartItem.color +
       " " +
@@ -934,6 +954,20 @@
       " added to your cart!"
     );
   });
+function updateCartCount() {
+  const cart = JSON.parse(
+    localStorage.getItem("goneOutdoorsCart")
+  ) || [];
+
+  const totalItems = cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  document.getElementById("cartCount").textContent = totalItems;
+}
+
+updateCartCount();
   </script>
 
 </body>
